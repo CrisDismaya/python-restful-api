@@ -16,8 +16,8 @@ Make sure you have the following software installed on your machine:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/flask-postgresql-api.git
-cd flask-postgresql-api
+git clone https://github.com/CrisDismaya/python-restful-api.git
+cd python-restful-api
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
