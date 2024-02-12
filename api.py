@@ -159,5 +159,48 @@ def update_topic():
     finally:
         connector.disconnect()
 
+
+@app.route('/api/getSales', methods=['GET'])
+def getSales():
+    try:
+        # Your existing database code
+        connector = PostgreSQLConnector()
+        connector.connect()
+
+        stmt = """
+            SELECT 
+                sub.sports, SUM(sub.price)
+            FROM (
+                SELECT 
+                    TRIM(REPLACE(
+                        CASE
+                            WHEN sports LIKE '%Apparel%' THEN 'Apparel'
+                            WHEN sports LIKE '%Sleeve%' THEN 'Apparel'
+                            WHEN sports LIKE '%Shirt%' THEN 'Apparel'
+                            WHEN sports LIKE '%Short%' THEN 'Apparel'
+                            WHEN sports LIKE '%Lacrosse%' THEN 'Apparel'
+                        ELSE sports END
+                    , 'DSG ', '')) sports, price
+                FROM public.sales
+            ) sub
+            GROUP BY sub.sports
+        """
+        connector.execute_query(stmt)
+        result = connector.cursor.fetchall()
+
+        # Get the column names from the cursor description
+        columns = [desc[0] for desc in connector.cursor.description]
+
+        # Create a list of dictionaries where each dictionary represents a row
+        result_as_dict = [dict(zip(columns, row)) for row in result]
+
+        return jsonify({'result': result_as_dict})
+    
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+    finally:
+        connector.disconnect()
+
 if __name__ == "__main__":
-    app.run(port=7000, debug=True)
+    app.run(port=8000, debug=True)
