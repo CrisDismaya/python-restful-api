@@ -13,6 +13,15 @@ Make sure you have the following software installed on your machine:
 - Python (3.6 or higher)
 - PostgreSQL
 
+### Required to install
+- Python (3.6 or higher)
+- PostgreSQL
+- Pip
+- Psycopg2 Library
+- Flask Library
+- Matplotlib Library
+- Mplcursors Library
+
 ### Clone the Repository
 
 ```bash
@@ -59,6 +68,6 @@ cd python-restful-api
 ```
 {
     "topic_id": 1,
-    "new_topic": "magic"
+    "new_topic": "Edited Topic"
 }
 ```
