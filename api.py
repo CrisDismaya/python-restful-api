@@ -4,6 +4,36 @@ from config.connector import PostgreSQLConnector
 
 app = Flask(__name__)
 
+# redshift
+@app.route('/api/redshift', methods=['GET'])
+def get_topics():
+    try:
+        # Your existing database code
+        connector = PostgreSQLConnector()
+        connector.connect()
+
+        stmt = """SELECT 
+                    cart_item_id, email, product_name 
+                FROM products"""
+        connector.execute_query(stmt)
+        result = connector.cursor.fetchall()
+
+        # Transform the result into a list of dictionaries
+        format = [
+            {
+                "id": row[0], 
+                "email": row[1], 
+                "prodct": row[2]
+            } for row in result
+        ]
+        return jsonify({"result": format})
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+    
+    finally:
+        connector.disconnect()
+
 # Create a route for your API endpoint
 @app.route('/api/getTopic', methods=['GET'])
 def get_topics():

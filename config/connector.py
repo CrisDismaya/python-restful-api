@@ -13,9 +13,10 @@ class PostgreSQLConnector:
         config = ConfigParser()
         config.read(os.path.join(os.path.dirname(__file__), self.config_file))
         
-        if 'database' not in config:
+        config_section = 'database'
+        if config_section not in config:
             print(f"Error: 'database' section not found in config file:")
-        return config['database']
+        return config[config_section]
 
     def connect(self):
         try:
